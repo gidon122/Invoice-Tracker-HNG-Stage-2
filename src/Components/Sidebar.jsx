@@ -22,7 +22,7 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
       <div style={{
         width: '72px',
         height: '72px',
-        background: 'linear-gradient(180deg, #7C5DFA 0%, #9277FF 100%)',
+        background: 'linear-gradient(180deg, #ffffff 0%, #ffffff 100%)',
         borderRadius: '0 20px 20px 0',
         display: 'flex',
         alignItems: 'center',
