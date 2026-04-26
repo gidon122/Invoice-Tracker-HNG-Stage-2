@@ -5,24 +5,27 @@ import Oval from '../assets/Oval.png'
 const Sidebar = ({ darkMode, onToggleDark }) => {
   return (
     <aside style={{
-      width: '72px',
-      minHeight: '100vh',
       background: 'var(--sidebar-bg)',
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
+      flexShrink: 0,
+      zIndex: 100,
+      // Desktop: vertical left sidebar
+      width: '72px',
+      minHeight: '100vh',
+      flexDirection: 'column',
       position: 'sticky',
       top: 0,
-      zIndex: 100,
-      flexShrink: 0,
       borderRadius: '0 20px 20px 0',
       overflow: 'hidden',
-    }}>
+    }}
+    className="app-sidebar"
+    >
       {/* Logo */}
       <div style={{
         width: '72px',
         height: '72px',
-        background: 'linear-gradient(180deg, #ffffff 0%, #ffffff 100%)',
+        background: 'linear-gradient(180deg, #7C5DFA 0%, #9277FF 100%)',
         borderRadius: '0 20px 20px 0',
         display: 'flex',
         alignItems: 'center',
@@ -30,8 +33,9 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
         flexShrink: 0,
         position: 'relative',
         overflow: 'hidden',
-      }}>
-        {/* Bottom half lighter overlay */}
+      }}
+      className="sidebar-logo"
+      >
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0,
           height: '50%',
@@ -50,7 +54,9 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
         gap: '24px',
         paddingBottom: '24px',
         width: '100%',
-      }}>
+      }}
+      className="sidebar-bottom"
+      >
         {/* Dark mode toggle */}
         <button
           onClick={onToggleDark}
@@ -61,7 +67,6 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
           title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {darkMode ? (
-            // Sun icon
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#858BB2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="5"/>
               <line x1="12" y1="1" x2="12" y2="3"/>
@@ -74,7 +79,6 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
           ) : (
-            // Moon icon
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#858BB2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
@@ -82,7 +86,7 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
         </button>
 
         {/* Divider */}
-        <div style={{ width: '100%', height: '1px', background: 'var(--sidebar-divider)' }} />
+        <div className="sidebar-divider" style={{ width: '100%', height: '1px', background: 'var(--sidebar-divider)' }} />
 
         {/* Avatar */}
         <div style={{
@@ -94,6 +98,38 @@ const Sidebar = ({ darkMode, onToggleDark }) => {
           <img src={Oval} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .app-sidebar {
+            width: 100% !important;
+            min-height: unset !important;
+            height: 72px !important;
+            flex-direction: row !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+          }
+          .app-sidebar .sidebar-logo {
+            border-radius: 0 0 20px 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .app-sidebar .sidebar-bottom {
+            margin-top: 0 !important;
+            flex-direction: row !important;
+            padding-bottom: 0 !important;
+            padding-right: 24px !important;
+            margin-left: auto !important;
+            gap: 24px !important;
+            align-items: center !important;
+            height: 100% !important;
+            width: auto !important;
+          }
+          .app-sidebar .sidebar-divider {
+            width: 1px !important;
+            height: 72px !important;
+          }
+        }
+      `}</style>
     </aside>
   )
 }

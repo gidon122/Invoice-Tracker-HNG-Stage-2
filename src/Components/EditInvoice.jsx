@@ -71,8 +71,14 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
     onSave(updated)
   }
 
+  const DeleteIcon = () => (
+    <svg width="13" height="16" viewBox="0 0 13 16" fill="none">
+      <path d="M11.583 3.556H8.944V2.667A1.333 1.333 0 007.611 1.333H5.389A1.333 1.333 0 004.056 2.667v.889H1.417a.444.444 0 100 .888h.444l.89 9.334A1.333 1.333 0 004.083 14h4.834a1.333 1.333 0 001.333-1.222l.889-9.334h.444a.444.444 0 100-.888z" fill="#888EB0"/>
+    </svg>
+  )
+
   return (
-    <div style={{ padding: '48px 48px 0' }}>
+    <div className="form-panel-inner" style={{ padding: '48px 48px 0' }}>
       <h1 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--text-primary)', letterSpacing: '-0.5px', marginBottom: '40px' }}>
         Edit <span style={{ color: 'var(--text-muted)' }}>#</span>{invoice?.id}
       </h1>
@@ -83,10 +89,10 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
           <label className="lbl">Street Address</label>
           <input className="inp" value={formData.billFromStreet} onChange={e => handleChange('billFromStreet', e.target.value)} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
+        <div className="form-3col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
           <div><label className="lbl">City</label><input className="inp" value={formData.billFromCity} onChange={e => handleChange('billFromCity', e.target.value)} /></div>
           <div><label className="lbl">Post Code</label><input className="inp" value={formData.billFromPostcode} onChange={e => handleChange('billFromPostcode', e.target.value)} /></div>
-          <div><label className="lbl">Country</label><input className="inp" value={formData.billFromCountry} onChange={e => handleChange('billFromCountry', e.target.value)} /></div>
+          <div className="form-3col-last"><label className="lbl">Country</label><input className="inp" value={formData.billFromCountry} onChange={e => handleChange('billFromCountry', e.target.value)} /></div>
         </div>
       </Section>
 
@@ -104,16 +110,16 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
           <label className="lbl">Street Address</label>
           <input className="inp" value={formData.billToStreet} onChange={e => handleChange('billToStreet', e.target.value)} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
+        <div className="form-3col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
           <div><label className="lbl">City</label><input className="inp" value={formData.billToCity} onChange={e => handleChange('billToCity', e.target.value)} /></div>
           <div><label className="lbl">Post Code</label><input className="inp" value={formData.billToPostcode} onChange={e => handleChange('billToPostcode', e.target.value)} /></div>
-          <div><label className="lbl">Country</label><input className="inp" value={formData.billToCountry} onChange={e => handleChange('billToCountry', e.target.value)} /></div>
+          <div className="form-3col-last"><label className="lbl">Country</label><input className="inp" value={formData.billToCountry} onChange={e => handleChange('billToCountry', e.target.value)} /></div>
         </div>
       </Section>
 
       {/* Date & Terms */}
       <div style={{ marginBottom: '40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+        <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
           <div><label className="lbl">Invoice Date</label><input className="inp" value={formData.invoiceDate} onChange={e => handleChange('invoiceDate', e.target.value)} /></div>
           <div><label className="lbl">Payment Terms</label><input className="inp" value={formData.paymentTerms} onChange={e => handleChange('paymentTerms', e.target.value)} /></div>
         </div>
@@ -124,24 +130,56 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
       {/* Item List */}
       <div style={{ marginBottom: '40px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#777F98', letterSpacing: '-0.38px', marginBottom: '16px' }}>Item List</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 64px 100px 80px 18px', gap: '16px', marginBottom: '8px' }}>
+
+        {/* Desktop item header */}
+        <div className="item-list-header-desktop" style={{ display: 'grid', gridTemplateColumns: '1fr 64px 100px 80px 18px', gap: '16px', marginBottom: '8px' }}>
           {['Item Name', 'Qty.', 'Price', 'Total', ''].map((h, i) => (
             <span key={i} className="lbl" style={{ margin: 0 }}>{h}</span>
           ))}
         </div>
+
         {formData.items.map((item, idx) => (
-          <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1fr 64px 100px 80px 18px', gap: '16px', marginBottom: '16px', alignItems: 'center' }}>
-            <input className="inp" value={item.description} onChange={e => handleItemChange(idx, 'description', e.target.value)} />
-            <input className="inp" type="number" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', e.target.value)} style={{ textAlign: 'center' }} />
-            <input className="inp" value={item.price} onChange={e => handleItemChange(idx, 'price', e.target.value)} style={{ textAlign: 'right' }} />
-            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>{item.total}</span>
-            <button onClick={() => removeItem(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
-              <svg width="13" height="16" viewBox="0 0 13 16" fill="none">
-                <path d="M11.583 3.556H8.944V2.667A1.333 1.333 0 007.611 1.333H5.389A1.333 1.333 0 004.056 2.667v.889H1.417a.444.444 0 100 .888h.444l.89 9.334A1.333 1.333 0 004.083 14h4.834a1.333 1.333 0 001.333-1.222l.889-9.334h.444a.444.444 0 100-.888z" fill="#888EB0"/>
-              </svg>
-            </button>
+          <div key={idx} className="item-row-wrapper" style={{ marginBottom: '16px' }}>
+            {/* Desktop row */}
+            <div className="item-row-desktop" style={{ display: 'grid', gridTemplateColumns: '1fr 64px 100px 80px 18px', gap: '16px', alignItems: 'center' }}>
+              <input className="inp" value={item.description} onChange={e => handleItemChange(idx, 'description', e.target.value)} />
+              <input className="inp" type="number" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', e.target.value)} style={{ textAlign: 'center' }} />
+              <input className="inp" value={item.price} onChange={e => handleItemChange(idx, 'price', e.target.value)} style={{ textAlign: 'right' }} />
+              <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>{item.total}</span>
+              <button onClick={() => removeItem(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
+                <DeleteIcon />
+              </button>
+            </div>
+
+            {/* Mobile row */}
+            <div className="item-row-mobile" style={{ display: 'none' }}>
+              <div style={{ marginBottom: '12px' }}>
+                <label className="lbl">Item Name</label>
+                <input className="inp" value={item.description} onChange={e => handleItemChange(idx, 'description', e.target.value)} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '64px 1fr 80px 18px', gap: '12px', alignItems: 'flex-end' }}>
+                <div>
+                  <label className="lbl">Qty.</label>
+                  <input className="inp" type="number" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', e.target.value)} style={{ textAlign: 'center' }} />
+                </div>
+                <div>
+                  <label className="lbl">Price</label>
+                  <input className="inp" value={item.price} onChange={e => handleItemChange(idx, 'price', e.target.value)} style={{ textAlign: 'right' }} />
+                </div>
+                <div>
+                  <label className="lbl">Total</label>
+                  <span style={{ display: 'flex', alignItems: 'center', height: '48px', fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)' }}>{item.total}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '4px' }}>
+                  <button onClick={() => removeItem(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
+                    <DeleteIcon />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
+
         <button
           onClick={addItem}
           style={{
@@ -158,7 +196,7 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
       </div>
 
       {/* Footer buttons */}
-      <div style={{
+      <div className="form-footer" style={{
         position: 'sticky', bottom: 0,
         background: 'var(--form-panel-bg)',
         padding: '24px 0 32px',
@@ -190,6 +228,34 @@ const EditInvoice = ({ invoice, onCancel, onSave }) => {
           Save Changes
         </button>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .form-panel-inner {
+            padding: 32px 24px 0 !important;
+          }
+          .form-3col {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .form-3col .form-3col-last {
+            grid-column: 1 / -1 !important;
+          }
+          .form-footer {
+            margin-left: -24px !important;
+            margin-right: -24px !important;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+          }
+          .item-list-header-desktop { display: none !important; }
+          .item-row-desktop { display: none !important; }
+          .item-row-mobile { display: block !important; }
+        }
+        @media (max-width: 480px) {
+          .form-2col {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

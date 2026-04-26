@@ -50,7 +50,7 @@ const App = () => {
   const showView = currentView === 'view'
 
   return (
-    <div style={{ background: 'var(--bg-page)', minHeight: '100vh', display: 'flex' }}>
+    <div style={{ background: 'var(--bg-page)', minHeight: '100vh', display: 'flex' }} className="app-root">
       <Sidebar darkMode={darkMode} onToggleDark={() => setDarkMode(d => !d)} />
 
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -90,7 +90,7 @@ const App = () => {
             />
             {/* Panel */}
             <div
-              className="slide-in"
+              className="slide-in form-panel"
               style={{
                 position: 'fixed', top: 0, left: '72px', bottom: 0,
                 width: '616px', zIndex: 50,
@@ -117,6 +117,33 @@ const App = () => {
           </>
         )}
       </main>
+
+      <style>{`
+        /* Mobile/tablet: stack sidebar on top, full-width layout */
+        @media (max-width: 900px) {
+          .app-root {
+            flex-direction: column !important;
+          }
+          .app-root > main {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+          }
+          /* Form panel: full width, starts below top navbar */
+          .app-root .form-panel {
+            left: 0 !important;
+            top: 72px !important;
+            width: 100% !important;
+            border-radius: 0 !important;
+            max-width: 100% !important;
+          }
+        }
+        @media (min-width: 601px) and (max-width: 900px) {
+          /* Tablet: slightly narrower form panel */
+          .app-root .form-panel {
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

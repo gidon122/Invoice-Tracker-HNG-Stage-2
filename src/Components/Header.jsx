@@ -11,8 +11,12 @@ const Header = ({ onAddClick }) => {
     ? 'No invoices'
     : `There are ${allInvoices.length} total invoices`
 
+  const mobileCountLabel = allInvoices.length === 0
+    ? 'No invoices'
+    : `${allInvoices.length} invoices`
+
   return (
-    <div style={{ padding: '56px 48px 40px', maxWidth: '780px', width: '100%', margin: '0 auto' }}>
+    <div className="header-wrapper" style={{ padding: '56px 48px 40px', maxWidth: '780px', width: '100%', margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
         {/* Title */}
@@ -29,7 +33,8 @@ const Header = ({ onAddClick }) => {
             color: 'var(--text-secondary)',
             margin: '4px 0 0', letterSpacing: '-0.1px',
           }}>
-            {countLabel}
+            <span className="count-full">{countLabel}</span>
+            <span className="count-short" style={{ display: 'none' }}>{mobileCountLabel}</span>
           </p>
         </div>
 
@@ -48,7 +53,8 @@ const Header = ({ onAddClick }) => {
                 letterSpacing: '-0.25px',
               }}
             >
-              Filter by status
+              <span className="filter-full-text">Filter by status</span>
+              <span className="filter-short-text" style={{ display: 'none' }}>Filter</span>
               <svg width="11" height="7" viewBox="0 0 11 7" fill="none"
                 style={{ transform: filterOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
                 <path d="M1 1L5.5 5.5L10 1" stroke="#7C5DFA" strokeWidth="2" strokeLinecap="round"/>
@@ -113,6 +119,7 @@ const Header = ({ onAddClick }) => {
               color: '#FFFFFF',
               letterSpacing: '-0.25px',
               transition: 'background 0.2s',
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={e => e.currentTarget.style.background = '#9277FF'}
             onMouseLeave={e => e.currentTarget.style.background = '#7C5DFA'}
@@ -127,10 +134,40 @@ const Header = ({ onAddClick }) => {
                 <path d="M6.313 10.023V6.313h3.71V4.523h-3.71V.813H4.523v3.71H.813v1.79h3.71v3.71z" fill="#7C5DFA"/>
               </svg>
             </div>
-            New Invoice
+            <span className="new-invoice-full">New Invoice</span>
+            <span className="new-invoice-short" style={{ display: 'none' }}>New</span>
           </button>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .header-wrapper {
+            padding: 32px 24px 24px !important;
+            max-width: 100% !important;
+          }
+          .header-wrapper h1 {
+            font-size: 24px !important;
+          }
+          .header-wrapper > div {
+            gap: 16px !important;
+          }
+          .header-wrapper > div > div:last-child {
+            gap: 16px !important;
+          }
+          .filter-full-text { display: none !important; }
+          .filter-short-text { display: inline !important; }
+          .count-full { display: none !important; }
+          .count-short { display: inline !important; }
+        }
+        @media (max-width: 480px) {
+          .new-invoice-full { display: none !important; }
+          .new-invoice-short { display: inline !important; }
+          .header-wrapper > div > div:last-child {
+            gap: 12px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
